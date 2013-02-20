@@ -1,0 +1,13 @@
+{
+  "name": "bezier",
+  "repo": "charlottegore/bezier",
+  "description": "Bezier Curve functions",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "index.js"
+  ]
+}
