@@ -1,11 +1,13 @@
+install:
+	@npm install
 
-build: components index.js
-	@component build --dev
+build: install
+	@echo build ...
+	@./node_modules/.bin/component-install
+	@./node_modules/.bin/component-build
 
-components: component.json
-	@component install --dev
+test: build
+	@echo test ...
+	@./node_modules/mocha-phantomjs/bin/mocha-phantomjs test/testrunner.html
 
-clean:
-	rm -fr build components template.js
-
-.PHONY: clean
+.PHONY: test build

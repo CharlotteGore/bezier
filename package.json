@@ -1,0 +1,14 @@
+{
+    "name": "bezier",
+    "version": "0.1.0",
+    "author": "Charlotte Gore <conspiracygore@gmail.com>",
+    "devDependencies": {
+        "mocha": "*",
+        "chai": "*",
+        "component": "*",
+        "mocha-phantomjs": "*"
+    },
+    "scripts": {
+        "test": "make test"
+    }
+}

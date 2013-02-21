@@ -1,5 +1,10 @@
 var BezierCurve = function(){
 
+	this._c1 = [0,0];
+	this._c2 = [0,0];
+	this._c3 = [0,0];
+	this._c4 = [0,0];
+
 	return this;
 
 };
@@ -43,7 +48,7 @@ var getPoint = (function(){
 
 	return function( t, i ){
 
-		return this._c1[ i ] * b1( t )  + this._c2[ i ] * b2( t ) + this._c3[ i ] * b3( t ) + this._c4[ i ] * b4( t ); 
+		return this._c4[ i ] * b1( t )  + this._c3[ i ] * b2( t ) + this._c2[ i ] * b3( t ) + this._c1[ i ] * b4( t ); 
 
 	}
 
@@ -119,6 +124,17 @@ BezierCurve.prototype = {
 	pointArray : function( n ){
 
 		return [ getPoint.call(this, n, 0), getPoint.call(this, n, 1) ];
+	},
+
+	query : function(){
+
+		return {
+			c1 : this._c1,
+			c2 : this._c2,
+			c3 : this._c3,
+			c4 : this._c4
+		};
+
 	}
 
 }
