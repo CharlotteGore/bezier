@@ -70,6 +70,12 @@
 
   `percent` being a floating point number between 0 and 1, representing the start and end of the curve. Returns an object: `{ top: val, left: val}`.
 
+## Test
+
+  test/testrunner.html can be opened in a local browser assuming you have installed the npm deps.
+
+    npm install
+    make test
 
 ## License
 
