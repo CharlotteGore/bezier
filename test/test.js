@@ -270,7 +270,7 @@ describe('Bezier module', function () {
    		var point = curve.point(0.75);
 
    		point.x.should.equal(18.4375);
-   		point.y.should.equal(11.5625);
+   		point.y.should.equal(20.625);
 
 
    	});
