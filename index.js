@@ -54,7 +54,7 @@ var getPoint = (function(){
 
 	return function( t, i ){
 
-		return this._c4[ i ] * b1( t )  + this._c3[ i ] * b2( t ) + this._c2[ i ] * b3( t ) + this._c1[ i ] * b4( t ); 
+		return this._c1[ i ] * b1( t )  + this._c3[ i ] * b2( t ) + this._c2[ i ] * b3( t ) + this._c4[ i ] * b4( t ); 
 
 	}
 
