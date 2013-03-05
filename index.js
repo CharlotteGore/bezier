@@ -126,7 +126,7 @@ BezierCurve.prototype = {
 
 		return getPoint.call(this, time, 1);
 
-	}
+	},
 
 	query : function(){
 
