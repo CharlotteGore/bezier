@@ -194,6 +194,51 @@ BezierCurve.prototype = {
 
 	},
 
+	buildLookup : function(){
+
+		var x = this._x = [];
+		var y = this._y = [];
+		var t;
+
+		for(var i = 0; i < 1000; i++){
+
+			t = i / 1000;
+			x.push(this.xAtTime( t ));
+			y.push(this.yAtTime( t ));
+
+		}
+
+		return this;
+
+	},
+
+	findYAtX : function(target, index){
+
+		var i = index || 0,
+			result = 0,
+			last = 0,
+			t,
+			x = this._x,
+			y = this._y;
+
+		while(!result && i < 1000){
+
+			t = x[i];
+
+			if(target===t || (target > last && target <= t)){
+
+				result = y[i]
+
+			}
+			last = t;
+			i++;
+
+		}
+
+		return result;
+
+	},
+
 	query : function(){
 
 		return {
