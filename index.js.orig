@@ -1,7 +1,13 @@
 var BezierCurve = function( config ){
 
 	if(!config){
+<<<<<<< HEAD
 		var config = {};		
+=======
+
+		var config = {};
+
+>>>>>>> c2eb4d20587f609cc4ebe68f971db74185093977
 	}
 
 	this._c1 = config.c1 || [0,0];
@@ -37,9 +43,7 @@ var checkCoord = function( o ){
 
 var getPoint = function( t, i ){
 
-	var _t = (1 - t);
-
-	return ( this._c1[ i ] * (_t * _t * _t ) ) + ( this._c2[ i ] * ( (3 * _t * _t ) * t ) ) + ( this._c3[ i ] * ( ( 3 * _t ) * ( t * t ) ) ) + this._c4[ i ] * (t * t * t); 
+	return this._c1[ i ] * (t * t * t)  + this._c3[ i ] * (3 * t * t * (1 - t)) + this._c2[ i ] * (3 * t * (1 - t) * (1 - t)) + this._c4[ i ] * ((1 - t) * (1 - t) * (1 - t)); 
 
 }
 
