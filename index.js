@@ -1,9 +1,13 @@
-var BezierCurve = function(){
+var BezierCurve = function( config ){
 
-	this._c1 = [0,0];
-	this._c2 = [0,0];
-	this._c3 = [0,0];
-	this._c4 = [0,0];
+	if(!config){
+		var config = {};		
+	}
+
+	this._c1 = config.c1 || [0,0];
+	this._c2 = config.c2 || [0,0];
+	this._c3 = config.c3 || [0,0];
+	this._c4 = config.c4 || [0,0];
 
 	return this;
 

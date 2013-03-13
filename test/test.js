@@ -38,6 +38,27 @@ describe('Bezier module', function () {
 
     });
 
+    it('should can be initialised with a config object', function(){
+
+      var config = { c1 : [1,10], c2 : [2,20], c3 :[3, 30], c4 : [4, 40]};
+
+      var query = bezier( config ).query();
+
+      query.c1[0].should.equal(1);
+      query.c1[1].should.equal(10);
+
+      query.c2[0].should.equal(2);
+      query.c2[1].should.equal(20);
+
+      query.c3[0].should.equal(3);
+      query.c3[1].should.equal(30);
+
+      query.c4[0].should.equal(4);
+      query.c4[1].should.equal(40);
+
+    });
+
+
 
     it('should allow control points to be set with an array', function(){
 
