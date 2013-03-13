@@ -3,6 +3,8 @@
   Bezier Curve functions in a handy CommonJS module (Component/Component style).
   
   Supports Linear, Quadratic and Cubic Bezier curves. By default curves are Cubic.
+  
+  Also supports a limited 'Find the value of Y at X' functionality via an optionally built lookup table of 1000 samples. Highly unoptimised right now, I'm afraid.
 
 ## Installation
 
@@ -52,6 +54,21 @@
   Set C4. C4 is the end point of the curve.
 
   coords can come in the form `{ top: number, left : number}` or `{ x : number, y : `number`} or `[number, number]`
+
+### .buildLookup( [Optional: samples] )
+
+    curve.buildLookup() // builds a lookup table of 1000 samples
+    curve.buildLookup(100) // builds a 100 sample lookup table
+    
+  Iterates through the curve recording the value of X and Y. This allows you to then attempt to get the approximate value of Y for any particular value of X.
+  
+### .findYAtX( `x` )
+
+    curve
+      .buildLookup()
+      .findYAtX(0.5) // === 0.334453
+      
+  Find the approximate value of y = x(t). The more samples in the lookup table, the greater the accuracy and more CPU intensive it becomes to match. 
 
 ### .renderToCanvas()
 
