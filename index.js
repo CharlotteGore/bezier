@@ -35,28 +35,12 @@ var checkCoord = function( o ){
 
 };
 
-var getPoint = (function(){
+var getPoint = function( t, i ){
 
-	var b1 = function (t)  { 
-		return (t * t * t); 
-	};		
-	var b2 = function (t)  { 
-		return (3 * t * t * (1 - t)); 
-	};		
-	var b3 = function (t)  { 
-		return (3 * t * (1 - t) * (1 - t)); 
-	};		
-	var b4 = function (t)  { 
-		return ((1 - t) * (1 - t) * (1 - t)); 
-	};
+	return this._c1[ i ] * (t * t * t)  + this._c3[ i ] * (3 * t * t * (1 - t)) + this._c2[ i ] * (3 * t * (1 - t) * (1 - t)) + this._c4[ i ] * ((1 - t) * (1 - t) * (1 - t)); 
 
-	return function( t, i ){
+}
 
-		return this._c4[ i ] * b1( t )  + this._c3[ i ] * b2( t ) + this._c2[ i ] * b3( t ) + this._c1[ i ] * b4( t ); 
-
-	}
-
-})();
 
 BezierCurve.prototype = {
 
@@ -128,6 +112,18 @@ BezierCurve.prototype = {
 	pointArray : function( n ){
 
 		return [ getPoint.call(this, n, 0), getPoint.call(this, n, 1) ];
+	},
+
+	xAtTime : function( time ){
+
+		return getPoint.call(this, time, 0);
+
+	},
+
+	yAtTime : function( time ){
+
+		return getPoint.call(this, time, 1);
+
 	},
 
 	query : function(){
