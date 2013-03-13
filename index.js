@@ -1,4 +1,30 @@
+var getLinearPoint = function( t, i ){
+
+	var _t = (1 - t);
+
+	return (_t * this._c1[i]) + (t * this._c2[i]);
+
+};
+
+var getQuadraticPoint = function(t, i){
+
+	var _t = (1 - t);
+
+	return (this._c1[ i ] * (_t * _t)) + (this._c2[i] * ( (2 * _t) * t ) ) + (this._c3[i] * (t * t));
+
+};
+
+var getCubicPoint = function( t, i ){
+
+	var _t = (1 - t);
+
+	return ( this._c1[ i ] * (_t * _t * _t ) ) + ( this._c2[ i ] * ( (3 * _t * _t ) * t ) ) + ( this._c3[ i ] * ( ( 3 * _t ) * ( t * t ) ) ) + this._c4[ i ] * (t * t * t); 
+
+};
+
 var BezierCurve = function( config ){
+
+	var self = this;
 
 	if(!config){
 		var config = {};		
@@ -8,6 +34,8 @@ var BezierCurve = function( config ){
 	this._c2 = config.c2 || [0,0];
 	this._c3 = config.c3 || [0,0];
 	this._c4 = config.c4 || [0,0];
+
+	this.isCubic();
 
 	return this;
 
@@ -34,15 +62,6 @@ var checkCoord = function( o ){
 	}
 
 };
-
-var getPoint = function( t, i ){
-
-	var _t = (1 - t);
-
-	return ( this._c1[ i ] * (_t * _t * _t ) ) + ( this._c2[ i ] * ( (3 * _t * _t ) * t ) ) + ( this._c3[ i ] * ( ( 3 * _t ) * ( t * t ) ) ) + this._c4[ i ] * (t * t * t); 
-
-}
-
 
 BezierCurve.prototype = {
 
@@ -78,12 +97,57 @@ BezierCurve.prototype = {
 
 	},
 
+	isLinear : function(){
+
+		var self = this;
+
+		this.b = function(t, i){
+
+			return getLinearPoint.call(self, t, i);
+
+		}
+
+		return this;
+
+	},
+
+	isQuadratic : function(){
+
+		var self = this;
+
+		this.b = function(t, i){
+
+			return getQuadraticPoint.call(self, t, i);
+
+		};
+
+		return this;
+
+	},
+
+	isCubic : function(){
+
+		var self = this;
+
+		this.b = function(t, i){
+
+			return getCubicPoint.call(self, t, i);
+
+		};
+
+		return this;
+
+
+	},
+
 	point : function( n ){
+
+		var self = this;
 
 		return {
 
-			x : getPoint.call(this, n, 0),
-			y : getPoint.call(this, n, 1)
+			x : self.b(n, 0),
+			y : self.b(n, 1)
 
 		};
 
@@ -92,10 +156,12 @@ BezierCurve.prototype = {
 
 	pointCss : function( n ){
 
+		var self = this
+
 		return {
 
-			left : getPoint.call(this, n, 0),
-			top : getPoint.call(this, n, 1)
+			left : self.b(n, 0),
+			top : self.b(n, 1)
 
 		};
 
@@ -113,18 +179,18 @@ BezierCurve.prototype = {
 	
 	pointArray : function( n ){
 
-		return [ getPoint.call(this, n, 0), getPoint.call(this, n, 1) ];
+		return [ this.b(n, 0), this.b(n, 1) ];
 	},
 
-	xAtTime : function( time ){
+	xAtTime : function( n ){
 
-		return getPoint.call(this, time, 0);
+		return this.b(n, 0);
 
 	},
 
-	yAtTime : function( time ){
+	yAtTime : function( n ){
 
-		return getPoint.call(this, time, 1);
+		return this.b(n, 1);
 
 	},
 
