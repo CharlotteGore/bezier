@@ -1,3 +1,5 @@
+var search = require('binary-search');
+
 var getLinearPoint = function( t, i ){
 
 	var _t = (1 - t);
@@ -194,15 +196,16 @@ BezierCurve.prototype = {
 
 	},
 
-	buildLookup : function(){
+	buildLookup : function( samples ){
 
 		var x = this._x = [];
 		var y = this._y = [];
 		var t;
+		var size = samples || 10000;
 
-		for(var i = 0; i < 1000; i++){
+		for(var i = 0; i < size; i++){
 
-			t = i / 1000;
+			t = i / size;
 			x.push(this.xAtTime( t ));
 			y.push(this.yAtTime( t ));
 
@@ -212,30 +215,10 @@ BezierCurve.prototype = {
 
 	},
 
-	findYAtX : function(target, index){
+	findYAtX : function( target ){
 
-		var i = index || 0,
-			result = 0,
-			last = 0,
-			t,
-			x = this._x,
-			y = this._y;
-
-		while(!result && i < 1000){
-
-			t = x[i];
-
-			if(target===t || (target > last && target <= t)){
-
-				result = y[i]
-
-			}
-			last = t;
-			i++;
-
-		}
-
-		return result;
+		;
+		return this._y[ search(this._x, target)[0] ];
 
 	},
 

@@ -4,7 +4,9 @@
   "description": "Bezier Curve functions",
   "version": "1.0.1",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "charlottegore/binary-search": "*"
+  },
   "development": {},
   "license": "MIT",
   "scripts": [
