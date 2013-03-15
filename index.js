@@ -219,11 +219,11 @@ BezierCurve.prototype = {
 
 		if(target === 1){
 
-			return yAtTime(1);
+			return this.yAtTime(1);
 
 		} else if(target === 0){
 
-			return yAtTime(0);
+			return this.yAtTime(0);
 
 		} else {
 
