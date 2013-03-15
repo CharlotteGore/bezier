@@ -217,8 +217,21 @@ BezierCurve.prototype = {
 
 	findYAtX : function( target ){
 
-		;
-		return this._y[ search(this._x, target)[0] ];
+		if(target === 1){
+
+			return yAtTime(1);
+
+		} else if(target === 0){
+
+			return yAtTime(0);
+
+		} else {
+
+			return this._y[ search(this._x, target)[0] ];
+
+		}
+
+		
 
 	},
 
