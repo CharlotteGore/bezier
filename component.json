@@ -2,7 +2,7 @@
   "name": "bezier",
   "repo": "charlottegore/bezier",
   "description": "Bezier Curve functions",
-  "version": "1.0.1",
+  "version": "1.2.0",
   "keywords": [],
   "dependencies": {
     "charlottegore/binary-search": "*"

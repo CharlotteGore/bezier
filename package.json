@@ -1,14 +1,20 @@
 {
-    "name": "bezier",
-    "version": "0.1.0",
-    "author": "Charlotte Gore <conspiracygore@gmail.com>",
-    "devDependencies": {
-        "mocha": "*",
-        "chai": "*",
-        "component": "*",
-        "mocha-phantomjs": "*"
-    },
-    "scripts": {
-        "test": "make test"
-    }
+  "name"          : "gm-bezier",
+  "description"   : "Quadratic, cubic and linear bezier curve math, including get value of y at x(t).",
+  "url"           : "http://charlottegore.github.io",
+  "keywords"      : ["bezier curves", "math", "quadratic","cubic","events", "client", "browser"],
+  "author"        : "Charlotte Gore <charlotte@greenmesa.co.uk>",
+  "dependencies"  : {
+    "gm-binary-search" : "0.0.2"
+  },
+  "main"          : "index.js",
+  "version"       : "1.2.0",
+  "license"       : "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/charlottegore/bezier.git"
+  },
+  "browser" : {
+    "binary-search" : "gm-binary-search"
+  }
 }

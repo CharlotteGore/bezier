@@ -4,11 +4,22 @@
   
   Supports Linear, Quadratic and Cubic Bezier curves. By default curves are Cubic.
   
-  Also supports a limited 'Find the value of Y at X' functionality via an optionally built lookup table of 1000 samples. Highly unoptimised right now, I'm afraid.
+  Also supports a limited 'Find the value of Y at X' functionality via an optionally built lookup table of a configurable number of samples. Used in this
+  way it is advisable to precompute your curves and store them for later use rather than generating from scratch each time.
 
 ## Installation
 
+Browserify/NPM
+
+```sh
+    $ npm install --save gm-bezier
+```
+
+Component
+
+```sh
     $ component install charlottegore/bezier
+```
 
 ## API
 
