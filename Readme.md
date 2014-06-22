@@ -15,10 +15,18 @@ Browserify/NPM
     $ npm install --save gm-bezier
 ```
 
+```js
+  var bezier = require('gm-bezier');
+```
+
 Component
 
 ```sh
     $ component install charlottegore/bezier
+```
+
+```js
+  var bezier = require('bezier');
 ```
 
 ## API
