@@ -2,254 +2,238 @@ var search = require('binary-search');
 
 var getLinearPoint = function( t, i ){
 
-	var _t = (1 - t);
+  var _t = (1 - t);
 
-	return (_t * this._c1[i]) + (t * this._c2[i]);
+  return (_t * this._c1[i]) + (t * this._c2[i]);
 
 };
 
 var getQuadraticPoint = function(t, i){
 
-	var _t = (1 - t);
+  var _t = (1 - t);
 
-	return (this._c1[ i ] * (_t * _t)) + (this._c2[i] * ( (2 * _t) * t ) ) + (this._c3[i] * (t * t));
+  return (this._c1[ i ] * (_t * _t)) + (this._c2[i] * ( (2 * _t) * t ) ) + (this._c3[i] * (t * t));
 
 };
 
 var getCubicPoint = function( t, i ){
 
-	var _t = (1 - t);
+  var _t = (1 - t);
 
-	return ( this._c1[ i ] * (_t * _t * _t ) ) + ( this._c2[ i ] * ( (3 * _t * _t ) * t ) ) + ( this._c3[ i ] * ( ( 3 * _t ) * ( t * t ) ) ) + this._c4[ i ] * (t * t * t); 
+  return ( this._c1[ i ] * (_t * _t * _t ) ) + ( this._c2[ i ] * ( (3 * _t * _t ) * t ) ) + ( this._c3[ i ] * ( ( 3 * _t ) * ( t * t ) ) ) + this._c4[ i ] * (t * t * t);
 
 };
 
 var BezierCurve = function( config ){
 
-	var self = this;
+  var self = this;
 
-	if(!config){
-		var config = {};		
-	}
+  if (!config){
+    config = {};
+  }
 
-	this._c1 = config.c1 || [0,0];
-	this._c2 = config.c2 || [0,0];
-	this._c3 = config.c3 || [0,0];
-	this._c4 = config.c4 || [0,0];
+  this._c1 = config.c1 || [0,0];
+  this._c2 = config.c2 || [0,0];
+  this._c3 = config.c3 || [0,0];
+  this._c4 = config.c4 || [0,0];
 
-	this.isCubic();
+  this.isCubic();
 
-	return this;
+  return this;
 
 };
 
 var checkCoord = function( o ){
 
-	if(typeof o.top !== 'undefined' && typeof o.left !== 'undefined'){
+  if(typeof o.top !== 'undefined' && typeof o.left !== 'undefined'){
 
-		return [o.left, o.top];
+    return [o.left, o.top];
 
-	}else if(typeof o.x !== 'undefined' && typeof o.y !== 'undefined'){
+  }else if(typeof o.x !== 'undefined' && typeof o.y !== 'undefined'){
 
-		return [o.x, o.y];
+    return [o.x, o.y];
 
-	}else if(typeof o[0] === 'number' && typeof o[1] === 'number'){
+  }else if(typeof o[0] === 'number' && typeof o[1] === 'number'){
 
-		return o
+    return o;
 
-	}else{
+  }else{
 
-		throw new Error('Input unacceptable');
+    throw new Error('Input unacceptable');
 
-	}
+  }
 
 };
 
 BezierCurve.prototype = {
 
-	c1 : function( coord ){
+  c1 : function( coord ){
 
-		this._c1 = checkCoord(coord);
+    this._c1 = checkCoord(coord);
 
-		return this;
+    return this;
 
-	},
+  },
 
-	c2 : function( coord ){
+  c2 : function( coord ){
 
-		this._c2 = checkCoord(coord);
+    this._c2 = checkCoord(coord);
 
-		return this;
+    return this;
 
-	},
+  },
 
-	c3 : function( coord ){
+  c3 : function( coord ){
 
-		this._c3 = checkCoord(coord);
+    this._c3 = checkCoord(coord);
 
-		return this;
+    return this;
 
-	},
+  },
 
-	c4 : function( coord ){
+  c4 : function( coord ){
 
-		this._c4 = checkCoord(coord);
+    this._c4 = checkCoord(coord);
 
-		return this;
+    return this;
 
-	},
+  },
 
-	isLinear : function(){
+  isLinear : function(){
 
-		var self = this;
+    var self = this;
 
-		this.b = function(t, i){
+    this.b = function(t, i){
 
-			return getLinearPoint.call(self, t, i);
+      return getLinearPoint.call(self, t, i);
 
-		}
+    };
 
-		return this;
+    return this;
 
-	},
+  },
 
-	isQuadratic : function(){
+  isQuadratic : function(){
 
-		var self = this;
+    var self = this;
 
-		this.b = function(t, i){
+    this.b = function(t, i){
 
-			return getQuadraticPoint.call(self, t, i);
+      return getQuadraticPoint.call(self, t, i);
 
-		};
+    };
 
-		return this;
+    return this;
 
-	},
+  },
 
-	isCubic : function(){
+  isCubic : function(){
 
-		var self = this;
+    var self = this;
 
-		this.b = function(t, i){
+    this.b = function(t, i){
 
-			return getCubicPoint.call(self, t, i);
+      return getCubicPoint.call(self, t, i);
 
-		};
+    };
 
-		return this;
+    return this;
 
+  },
 
-	},
+  point : function( n ){
 
-	point : function( n ){
+    var self = this;
 
-		var self = this;
+    return {
 
-		return {
+      x : self.b(n, 0),
+      y : self.b(n, 1)
 
-			x : self.b(n, 0),
-			y : self.b(n, 1)
+    };
 
-		};
+  },
 
-	},
 
+  pointCss : function( n ){
 
-	pointCss : function( n ){
+    var self = this;
 
-		var self = this
+    return {
 
-		return {
+      left : self.b(n, 0),
+      top : self.b(n, 1)
 
-			left : self.b(n, 0),
-			top : self.b(n, 1)
+    };
 
-		};
+  },
+  
+  pointArray : function( n ){
 
-	},
+    return [ this.b(n, 0), this.b(n, 1) ];
 
+  },
 
-	renderToCanvas : function( context ){
+  xAtTime : function( n ){
 
-		context.beginPath();
-		context.moveTo(this._c1[0], this._c1[1]);
-		context.bezierCurveTo(this._c2[0], this._c2[1], this._c3[0], this._c3[1], this._c4[0], this._c4[1]);
-		context.stroke();
+    return this.b(n, 0);
 
-	},
-	
-	pointArray : function( n ){
+  },
 
-		return [ this.b(n, 0), this.b(n, 1) ];
-	},
+  yAtTime : function( n ){
 
-	xAtTime : function( n ){
+    return this.b(n, 1);
 
-		return this.b(n, 0);
+  },
 
-	},
+  buildLookup : function( samples ){
 
-	yAtTime : function( n ){
+    var x = this._x = [];
+    var y = this._y = [];
+    var t;
+    var size = samples || 10000;
 
-		return this.b(n, 1);
+    for(var i = 0; i < size; i++){
 
-	},
+      t = i / size;
+      x.push(this.xAtTime( t ));
+      y.push(this.yAtTime( t ));
 
-	buildLookup : function( samples ){
+    }
 
-		var x = this._x = [];
-		var y = this._y = [];
-		var t;
-		var size = samples || 10000;
+    return this;
 
-		for(var i = 0; i < size; i++){
+  },
 
-			t = i / size;
-			x.push(this.xAtTime( t ));
-			y.push(this.yAtTime( t ));
+  findYAtX : function( target ){
 
-		}
+    if(target === 1){
 
-		return this;
+      return this.yAtTime(1);
 
-	},
+    } else if(target === 0){
 
-	findYAtX : function( target ){
+      return this.yAtTime(0);
 
-		if(target === 1){
+    } else {
 
-			return this.yAtTime(1);
+      return this._y[ search(this._x, target)[0] ];
 
-		} else if(target === 0){
+    }
 
-			return this.yAtTime(0);
+  },
 
-		} else {
+  query : function(){
 
-			return this._y[ search(this._x, target)[0] ];
+    return {
+      c1 : this._c1,
+      c2 : this._c2,
+      c3 : this._c3,
+      c4 : this._c4
+    };
 
-		}
+  }
 
-		
+};
 
-	},
-
-	query : function(){
-
-		return {
-			c1 : this._c1,
-			c2 : this._c2,
-			c3 : this._c3,
-			c4 : this._c4
-		};
-
-	}
-
-}
-
-module.exports = function(c1, c2, c3, c4){
-	
-	return new BezierCurve(c1, c2, c3, c4);
-
-}
+module.exports.Bezier = BezierCurve;

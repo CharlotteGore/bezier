@@ -1,100 +1,98 @@
-var bezier = require('bezier');
+var chai = require('chai');
+var expect = chai.expect;
+var should = chai.should();
+
+var bezierModule = require('../index.js');
 
 describe('Bezier module', function () {
 
-  describe("initialisation", function(){
+  var Bezier = bezierModule.Bezier;
 
-     it('should export a function', function () {
-            bezier.should.be.a('function');
-        });
+  it('sanity checking the build', function(){
+    expect(new Bezier()).to.be.an('object');
+  });
 
-        it('should return a bezier object', function(){
-          bezier().should.be.a('object');
-        });
+  it('should be queryable', function(){
 
-        it('should be queryable', function(){
+    var query = new Bezier().query();
 
-          var query = bezier().query();
+    expect(query.c1.length).to.equal(2);
+    expect(query.c2.length).to.equal(2);
+    expect(query.c3.length).to.equal(2);
+    expect(query.c4.length).to.equal(2);
 
-          query.should.have.property('c1').with.length(2);
-          query.should.have.property('c2').with.length(2);
-          query.should.have.property('c3').with.length(2);
-          query.should.have.property('c4').with.length(2);
+  });
 
-        });
+  it('should reset to zero by default', function(){
 
-        it('should reset to zero by default', function(){
+    var query = new Bezier().query();
 
-          var query = bezier().query();
+    expect(query.c1[0]).to.equal(0);
+    expect(query.c1[1]).to.equal(0);
 
-          query.c1[0].should.equal(0);
-          query.c1[1].should.equal(0);
+    expect(query.c2[0]).to.equal(0);
+    expect(query.c2[1]).to.equal(0);
 
-          query.c2[0].should.equal(0);
-          query.c2[1].should.equal(0);
+    expect(query.c3[0]).to.equal(0);
+    expect(query.c3[1]).to.equal(0);
 
-          query.c3[0].should.equal(0);
-          query.c3[1].should.equal(0);
+    expect(query.c4[0]).to.equal(0);
+    expect(query.c4[1]).to.equal(0);
 
-          query.c4[0].should.equal(0);
-          query.c4[1].should.equal(0);
+  });
 
-        });
+  it('should can be initialised with a config object', function(){
 
-        it('should can be initialised with a config object', function(){
+    var config = { c1 : [1,10], c2 : [2,20], c3 :[3, 30], c4 : [4, 40]};
 
-          var config = { c1 : [1,10], c2 : [2,20], c3 :[3, 30], c4 : [4, 40]};
+    var query = new Bezier( config ).query();
 
-          var query = bezier( config ).query();
+    expect(query.c1[0]).to.equal(1);
+    expect(query.c1[1]).to.equal(10);
 
-          query.c1[0].should.equal(1);
-          query.c1[1].should.equal(10);
+    expect(query.c2[0]).to.equal(2);
+    expect(query.c2[1]).to.equal(20);
 
-          query.c2[0].should.equal(2);
-          query.c2[1].should.equal(20);
+    expect(query.c3[0]).to.equal(3);
+    expect(query.c3[1]).to.equal(30);
 
-          query.c3[0].should.equal(3);
-          query.c3[1].should.equal(30);
+    expect(query.c4[0]).to.equal(4);
+    expect(query.c4[1]).to.equal(40);
 
-          query.c4[0].should.equal(4);
-          query.c4[1].should.equal(40);
-
-        });
-
-
-  })
+  });
 
   describe("Setting control points", function(){
 
-    it('should allow control points to be set with an array', function(){
+    it('should allow control points to be set with vector array', function(){
 
-          var curve = bezier();
+          var curve = new Bezier();
 
-          curve.c1([10,15])
-          .c2([20,25])
-          .c3([30,35])
-          .c4([40,45]);
+          curve
+            .c1([10,15])
+            .c2([20,25])
+            .c3([30,35])
+            .c4([40,45]);
 
           var query = curve.query();
 
-          query.c1[0].should.equal(10);
-          query.c1[1].should.equal(15);
+          expect(query.c1[0]).to.equal(10);
+          expect(query.c1[1]).to.equal(15);
 
-          query.c2[0].should.equal(20);
-          query.c2[1].should.equal(25);
+          expect(query.c2[0]).to.equal(20);
+          expect(query.c2[1]).to.equal(25);
 
-          query.c3[0].should.equal(30);
-          query.c3[1].should.equal(35);
+          expect(query.c3[0]).to.equal(30);
+          expect(query.c3[1]).to.equal(35);
 
-          query.c4[0].should.equal(40);
-          query.c4[1].should.equal(45);
+          expect(query.c4[0]).to.equal(40);
+          expect(query.c4[1]).to.equal(45);
 
         });
 
 
         it('should allow control points to be set with an a top/left object', function(){
 
-          var curve = bezier();
+          var curve = new Bezier();
 
           curve.c1({ left: 10, top : 15})
           .c2({ left: 20, top : 25})
@@ -119,7 +117,7 @@ describe('Bezier module', function () {
 
         it('should allow control points to be set with an x/y object', function(){
 
-          var curve = bezier();
+          var curve = new Bezier();
 
           curve.c1({ x: 10, y: 15})
           .c2({ x: 20, y : 25})
@@ -144,7 +142,7 @@ describe('Bezier module', function () {
 
         it('should allow control points to be set with an x/y object', function(){
 
-          var curve = bezier();
+          var curve = new Bezier();
 
           curve.c1({ x: 10, y: 15})
           .c2({ x: 20, y : 25})
@@ -174,7 +172,7 @@ describe('Bezier module', function () {
 
     it('should return an array when using pointArray()', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -188,7 +186,7 @@ describe('Bezier module', function () {
 
     it('should return an object with top/left when using pointCss()', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -203,7 +201,7 @@ describe('Bezier module', function () {
 
     it('should return an object with x/y when using point()', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -222,7 +220,7 @@ describe('Bezier module', function () {
 
 it('should return the start of the curve at 0%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -241,7 +239,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the end of the curve at 100%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -259,7 +257,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 50%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -277,7 +275,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 25%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -295,7 +293,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 75%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -317,7 +315,7 @@ it('should return the start of the curve at 0%', function(){
 
     it("shoudl return the start of the curve at 0%", function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -336,7 +334,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the end of the curve at 100%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -354,7 +352,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 50%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -372,7 +370,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 25%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -390,7 +388,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 75%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -413,7 +411,7 @@ it('should return the start of the curve at 0%', function(){
 
     it("shoudl return the start of the curve at 0%", function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -431,7 +429,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the end of the curve at 100%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -448,7 +446,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 50%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -465,7 +463,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 25%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})
@@ -482,7 +480,7 @@ it('should return the start of the curve at 0%', function(){
 
     it('should return the correct values for 75%', function(){
 
-      var curve = bezier();
+      var curve = new Bezier();
 
       curve
         .c1({ x : 10, y : 15})

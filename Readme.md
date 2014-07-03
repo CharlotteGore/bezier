@@ -1,10 +1,10 @@
 # bezier
 
-  Bezier Curve functions in a handy CommonJS module (Component/Component style).
+  Bezier Curve functions in a handy CommonJS module (npm/browserify style).
   
   Supports Linear, Quadratic and Cubic Bezier curves. By default curves are Cubic.
   
-  Also supports a limited 'Find the value of Y at X' functionality via an optionally built lookup table of a configurable number of samples. Used in this
+  Also supports 'Find the value of Y at X(t)' functionality via an optionally built lookup table of a configurable number of samples. Used in this
   way it is advisable to precompute your curves and store them for later use rather than generating from scratch each time.
 
 ## Installation
@@ -19,27 +19,17 @@ Browserify/NPM
   var bezier = require('gm-bezier');
 ```
 
-Component
-
-```sh
-    $ component install charlottegore/bezier
-```
-
-```js
-  var bezier = require('bezier');
-```
-
 ## API
 
-    var bezier = require('bezier');
+    var Bezier = require('bezier').Bezier;
     
     // create a default zeroed curve.
-    var curve = bezier();
+    var curve = new Bezier();
   
   Create a new Bezier Curve.
   
     // create a curve initialised with a config object
-    var curve = bezier({ c1 : c1, c2 : c2, c3: c3, c4: c4 });
+    var curve = new Bezier({ c1 : c1, c2 : c2, c3: c3, c4: c4 });
 
 ### .c1()
 
@@ -88,12 +78,6 @@ Component
       .findYAtX(0.5) // === 0.334453
       
   Find the approximate value of y = x(t). The more samples in the lookup table, the greater the accuracy and more CPU intensive it becomes to match. 
-
-### .renderToCanvas()
-
-    curve.renderToCanvas( context )
-
-  draws the curve to the context. 
 
 ### .point()
 
@@ -148,8 +132,10 @@ Component
 
   test/testrunner.html can be opened in a local browser assuming you have installed the npm deps.
 
+```sh
     npm install
-    make test
+    grunt test
+```
 
 ## License
 
