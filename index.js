@@ -1,4 +1,4 @@
-var search = require('binary-search');
+var search = require('gm-binary-search');
 
 var getLinearPoint = function( t, i ){
 
