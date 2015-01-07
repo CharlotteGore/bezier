@@ -8,14 +8,11 @@
     "gm-binary-search" : "0.0.2"
   },
   "main"          : "index.js",
-  "version"       : "1.4.0",
+  "version"       : "1.6.0",
   "license"       : "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/charlottegore/bezier.git"
-  },
-  "browser" : {
-    "binary-search" : "gm-binary-search"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
